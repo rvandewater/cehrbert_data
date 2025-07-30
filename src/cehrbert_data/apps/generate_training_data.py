@@ -53,7 +53,9 @@ def main(
         duplicate_records: bool = False,
         disconnect_problem_list_records: bool = False,
 ):
-    spark = SparkSession.builder.appName("Generate CEHR-BERT Training Data").getOrCreate()
+    spark = SparkSession.builder.appName("Generate CEHR-BERT Training Data")
+        .config("spark.sql.legacy.parquet.int96RebaseModeInWrite", "LEGACY")
+        .config("spark.sql.legacy.parquet.datetimeRebaseModeInWrite", "LEGACY").getOrCreate()
 
     logger = logging.getLogger(__name__)
     logger.info(
