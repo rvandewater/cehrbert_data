@@ -56,7 +56,9 @@ def main(
     spark = SparkSession.builder.appName("Generate CEHR-BERT Training Data") \
         .config("spark.sql.legacy.parquet.int96RebaseModeInWrite", "LEGACY") \
         .config("spark.sql.legacy.parquet.datetimeRebaseModeInWrite", "LEGACY").getOrCreate()
-
+    spark.conf.set("spark.sql.parquet.datetimeRebaseModeInWrite", "CORRECTED")
+    spark.conf.set("spark.sql.parquet.int96RebaseModeInWrite", "CORRECTED") 
+    spark.conf.set("spark.sql.legacy.parquet.datetimeRebaseModeInWrite", "CORRECTED")
     logger = logging.getLogger(__name__)
     logger.info(
         f"input_folder: {input_folder}\n"

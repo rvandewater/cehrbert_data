@@ -56,6 +56,9 @@ def main(
     spark = SparkSession.builder.appName("Generate CEHR-BERT Training Data") \
         .config("spark.sql.legacy.parquet.int96RebaseModeInWrite", "LEGACY") \
         .config("spark.sql.legacy.parquet.datetimeRebaseModeInWrite", "LEGACY").getOrCreate()
+    spark.conf.set("spark.sql.parquet.datetimeRebaseModeInWrite", "CORRECTED")
+    spark.conf.set("spark.sql.parquet.int96RebaseModeInWrite", "CORRECTED") 
+    spark.conf.set("spark.sql.legacy.parquet.datetimeRebaseModeInWrite", "CORRECTED")
     # Exclude measurement from domain_table_list if exists because we need to process measurement
     # in a different way
     domain_table_list = ehr_table_list if ehr_table_list else DOMAIN_TABLE_LIST
