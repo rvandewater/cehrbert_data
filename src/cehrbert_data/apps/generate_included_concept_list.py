@@ -53,8 +53,9 @@ def main(
     The function processes patient event data across various domain tables, excludes low-frequency
     concepts, and saves the filtered concepts to a specified output folder.
     """
-    spark = SparkSession.builder.appName("Generate concept list").getOrCreate()
-
+    spark = SparkSession.builder.appName("Generate CEHR-BERT Training Data")
+        .config("spark.sql.legacy.parquet.int96RebaseModeInWrite", "LEGACY")
+        .config("spark.sql.legacy.parquet.datetimeRebaseModeInWrite", "LEGACY").getOrCreate()
     # Exclude measurement from domain_table_list if exists because we need to process measurement
     # in a different way
     domain_table_list = ehr_table_list if ehr_table_list else DOMAIN_TABLE_LIST
